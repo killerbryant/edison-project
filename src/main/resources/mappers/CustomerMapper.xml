@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edison.demo.dao.CustomerMapper">
+	<cache eviction="FIFO"
+		   flushInterval="43200000"
+		   size="512"
+		   readOnly="true"/>
+	<sql id="Base_Column_List">
+	  CUSTOMER_ID, CUSTOMER_NAME, CUSTOMER_GENDER, CUSTOMER_CITY
+	</sql>
+	
+	<sql id="All_Column_List">
+	  CUSTOMER_ID, CUSTOMER_NAME, CUSTOMER_GENDER, CUSTOMER_CITY, CUSTOMER_SIGN_TIME
+	</sql>
+	
+	<resultMap id="customer" type="com.edison.demo.model.Customer">
+        <id column="CUSTOMER_ID" property="id"></id>
+        <result column="CUSTOMER_NAME" property="name"></result>
+        <result column="CUSTOMER_GENDER" property="gender"></result>
+        <result column="CUSTOMER_CITY" property="city"></result>
+        <result column="CUSTOMER_SIGN_TIME" property="signTime"></result>
+    </resultMap>
+
+    <select id="findByCustomerIds" resultMap="customer" useCache="true">
+	     SELECT 
+	     <include refid="All_Column_List" />
+	     FROM UserInfo WHERE 
+	     CUSTOMER_ID IN  
+	     <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">  
+	      #{item}  
+	     </foreach>  
+	</select>
+
+    <insert id="insertCustomer" parameterType="com.edison.demo.model.Customer">
+        INSERT INTO UserInfo(<include refid="All_Column_List" />)
+        VALUES(
+            #{user.id}, #{user.name}, #{user.gender}, #{user.city}, #{user.signTime}
+        )
+     </insert>
+
+</mapper>

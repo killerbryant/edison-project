@@ -1,0 +1,62 @@
+#Server
+server:
+  port: 8080
+# DataSource Config
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    driver-class-name: org.h2.Driver
+    schema: classpath:db/schema.sql #，每次啟動程式，程式都會運行schema.sql檔，對資料庫的資料操作
+    data: classpath:db/data.sql #，每次啟動程式，程式都會運行data.sql檔，對資料庫的資料操作
+    url: jdbc:h2:~/test #配置h2資料庫的連接位址
+    sql-script-encoding: UTF-8
+    username: sa
+    password: sa
+  h2:
+    console:
+      enabled: true #開啟web console功能
+  # redis配置
+#  redis:
+#    host: localhost
+#    port: 6379
+#    jedis:
+#          pool:
+#              # 連接池最大連接數（使用負值表示沒有限制）
+#              max-active: 100
+#              # 連接池中的最大空閒連接
+#              max-idle: 8
+#              # 連接池最大阻塞等待時間（使用負值表示沒有限制）
+#              max-wait: -1
+#              # 連接池中的最小空閒連接
+#              min-idle: 0
+#    timeout: 5000
+  # cache配置 
+  cache:
+    type: ehcache #redis
+    ehcache:
+      config: classpath:/ehcache.xml
+# mybatis配置
+mybatis:
+  # 配置檔案所在位置
+#  config-location: classpath:MybatisConfig.xml
+  # 對映檔案所在位置
+  mapper-locations: classpath:mappers/*Mapper.xml
+  configuration: 
+    #開啟mybatis駝峰式命名規則自動轉換
+    map-underscore-to-camel-case: true
+    #用於控制台列印sql語句
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #Entity所在位置
+  type-aliases-package: com.edison.demo.model
+# log配置
+logging:
+  level:
+    org.springframework.web: ERROR
+    com.edison.demo: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/application-debug.log
