@@ -1,6 +1,6 @@
 #Server
 server:
-  port: 8080
+  port: 9090
 # DataSource Config
 spring:
   jackson:
@@ -53,8 +53,8 @@ mybatis:
 # log配置
 logging:
   level:
-    org.springframework.web: ERROR
-    com.edison.demo: INFO
+    org.springframework.web: DEBUG
+    com.edison.demo: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

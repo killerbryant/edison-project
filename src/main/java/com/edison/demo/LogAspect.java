@@ -20,8 +20,8 @@ import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Aspect
-@Component
+@Aspect // 告知Spring這是一個Aspect
+@Component // 告知Spring要管理這個class
 public class LogAspect {
 	
 	@Autowired
@@ -30,31 +30,31 @@ public class LogAspect {
 	private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
 	
 	@Pointcut("execution(public * com.edison.demo.controller.*.*(..))")
-	public void pointcut() {
+	public void LogPointcut() {
 		
 	}
 
-	@Before("LogAspect()")
+	@Before("LogPointcut()")
 	public void doBefore(JoinPoint joinPoint) {
-//		log.debug("doBefore");
+		log.debug("doBefore");
 	}
 
-	@After("LogAspect()")
+	@After("LogPointcut()")
 	public void doAfter(JoinPoint joinPoint) {
-//		log.debug("doAfter");
+		log.debug("doAfter");
 	}
 
-	@AfterReturning("LogAspect()")
+	@AfterReturning("LogPointcut()")
 	public void doAfterReturning(JoinPoint joinPoint) {
-//		log.debug("doAfterReturning");
+		log.debug("doAfterReturning");
 	}
 
-	@AfterThrowing("LogAspect()")
+	@AfterThrowing("LogPointcut()")
 	public void deAfterThrowing(JoinPoint joinPoint) {
-//		log.debug("deAfterThrowing");
+		log.debug("deAfterThrowing");
 	}
 
-	@Around("LogAspect()")
+	@Around("LogPointcut()")
 	public Object deAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
