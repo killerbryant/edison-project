@@ -3,10 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.edison.demo.dao.CustomerMapper">
-	<cache eviction="FIFO"
-		   flushInterval="43200000"
+	<!-- cache size="512"：在二級緩存中最多容納512個對象 -->
+    <!-- eviction="FIFO"：緩存清除策略FIFO、LRU -->
+    <!-- flushInterval="60000"：定時（每60s）兌緩存進行清理 -->
+    <!-- readOnly="true"：保存在緩存中的物件不允許被修改 -->
+    <cache eviction="FIFO"
+		   flushInterval="60000"
 		   size="512"
 		   readOnly="true"/>
+    <!-- useCache="false"：不使用緩存 -->
+    <!-- 通常查詢結果為多個物件時，不建議使用二級緩存。因為list清單中任何一個元素發生變化後，Mybatis為了保證緩存中的資料和資料庫中資料的一致，會將整個list進行處理 -->
+
+	
 	<sql id="Base_Column_List">
 	  CUSTOMER_ID, CUSTOMER_NAME, CUSTOMER_GENDER, CUSTOMER_CITY
 	</sql>

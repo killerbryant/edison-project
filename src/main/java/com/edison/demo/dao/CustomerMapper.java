@@ -2,12 +2,14 @@ package com.edison.demo.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.CacheNamespaceRef;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.edison.demo.model.Customer;
 import com.edison.demo.model.CustomerDto;
 
+//@CacheNamespaceRef(CustomerMapper.class) 
 @Repository
 public interface CustomerMapper {
 

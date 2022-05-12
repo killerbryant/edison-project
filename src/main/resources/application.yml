@@ -18,25 +18,29 @@ spring:
     console:
       enabled: true #開啟web console功能
   # redis配置
-#  redis:
-#    host: localhost
-#    port: 6379
-#    jedis:
-#          pool:
-#              # 連接池最大連接數（使用負值表示沒有限制）
-#              max-active: 100
-#              # 連接池中的最大空閒連接
-#              max-idle: 8
-#              # 連接池最大阻塞等待時間（使用負值表示沒有限制）
-#              max-wait: -1
-#              # 連接池中的最小空閒連接
-#              min-idle: 0
-#    timeout: 5000
+  redis:
+    # redis資料庫索引（預設為0），我們使用索引為3的資料庫，避免和其他資料庫衝突
+    database: 0
+    # redis伺服器地址（默認為localhost）
+    host: 127.0.0.1
+    # redis埠（默認為6379）
+    port: 6379
+    # redis訪問密碼（預設為空）
+    password: 
+    # redis連接逾時時間（單位為毫秒）
+    timeout: 8000
+    # redis連接池配置
+    jedis:
+      pool: #連接池配置
+        max-active: 8 #連接池最大連接數
+        max-wait: -1 #連接池最大阻塞等待時間
+        max-idle: 8 #連接池中的最大空閒連接數
+        min-idle: 0 #連接池中的最小空閒連接數
   # cache配置 
-  cache:
-    type: ehcache #redis
-    ehcache:
-      config: classpath:/ehcache.xml
+#  cache:
+#    type: ehcache #redis
+#    ehcache:
+#      config: classpath:/ehcache.xml
 # mybatis配置
 mybatis:
   # 配置檔案所在位置
@@ -44,6 +48,8 @@ mybatis:
   # 對映檔案所在位置
   mapper-locations: classpath:mappers/*Mapper.xml
   configuration: 
+    #開啟二級緩存
+    cache-enabled: true
     #開啟mybatis駝峰式命名規則自動轉換
     map-underscore-to-camel-case: true
     #用於控制台列印sql語句
