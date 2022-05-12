@@ -30,13 +30,21 @@ spring:
     # redis連接逾時時間（單位為毫秒）
     timeout: 8000
     # redis連接池配置
-    jedis:
+    lettuce:
       pool: #連接池配置
-        max-active: 8 #連接池最大連接數
+        max-active: 1000 #連接池最大連接數
         max-wait: -1 #連接池最大阻塞等待時間
         max-idle: 8 #連接池中的最大空閒連接數
         min-idle: 0 #連接池中的最小空閒連接數
-  # cache配置 
+  # cache配置
+  cache:
+    #指定緩存類型為redis
+    type: redis
+    redis:
+      time-to-live: 60000 #緩存超時時間 單位：ms
+      key-prefix: CACHE_   #緩存key首碼
+      use-key-prefix: true #是否開啟緩存key首碼
+      cache-null-values: true #緩存空值，解決緩存穿透問題
 #  cache:
 #    type: ehcache #redis
 #    ehcache:

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
  * @Description: Redis操作工具類
  */
 @Component
+@SuppressWarnings("all")
 public class RedisUtils {
 
     @Autowired

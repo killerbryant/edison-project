@@ -3,6 +3,7 @@ package com.edison.demo.controller;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,11 +52,14 @@ public class CciController extends BaseController{
 	@RequestMapping(value = "/customer/detail/query", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	@ApiOperation(value = "查詢", notes = "查詢客戶資料")
-	public Map<String, Object> QueryCustomer(@RequestBody RequestCustomerBody requestCustomerBody) {
+	public Map<String, Object> QueryCustomer(@RequestBody Optional<RequestCustomerBody> requestCustomerBody) {
 		clear();
 		try {
-			if(requestCustomerBody != null) {
-				List<String> ids = requestCustomerBody.getCustomerBody().getCustomerId();
+			requestCustomerBody.ifPresent(request -> {
+				List<String> ids = request.getCustomerBody().getCustomerId();
+				
+//				Optional<List<String>> idList = Optional.of(ids);
+				
 				if(ids != null && ids.size() > 0) {
 					List<Customer> customers = customerService.getCustomerById(ids);
 					header.setCode(ConstantUtils.Status.SUCCESS.getCode());
@@ -76,7 +80,7 @@ public class CciController extends BaseController{
 					
 					map.put("RETURN_BODY", body);
 				}
-			}
+	        });
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			header.setCode(ConstantUtils.Status.ERROR.getCode());
